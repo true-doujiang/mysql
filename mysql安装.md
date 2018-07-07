@@ -20,8 +20,9 @@
 			# passwd mysql  密码随便
 			# chown -R mysql:mysql /usr/local/mysql   把该目录的权限也给mysql用户
 			
-	 	  ②cd /usr/local/mysql
-	 		# yum install -y perl-Module-Install.noarch  若报错
+	 	  ②初始化数据
+	 	    # cd /usr/local/mysql
+	 		# yum install -y perl-Module-Install.noarch  若报错，执行我
 	 		
 	 		mysql5.7之前用的这个脚本 之后用 ./bin/mysqld
 	 		# ./scripts/mysql_install_db --help  查看选项
@@ -38,7 +39,7 @@
 			[mysqld]
 			user=mysql  
 			basedir=/usr/local/mysql  	      mysql软件的目录
-			datadir=/mysqldata/mysql-01	      数据库实例存放数据的目录
+			datadir=/mysqldata/mysql-01	      数据库 "实例" 存放数据的目录
 			server_id=1
 			socket=/mysqldata/mysql-01/mysql-01.sock
 			-----------------------------------------------------
@@ -58,7 +59,7 @@
 	6. 运作初始化安全脚本
 		# mysql_secure_installation   会提示设置密码等等
 		脚本是找/tmp/mysql.sock  而sock又不在该目录，所以只能建个软连接。
-		5.7之前不是使用 -S 参数指定路径，所以才使用软连接的方式。
+		5.7之前不能使用 -S 参数指定路径，所以才使用软连接的方式。
 		# ln -s /mysqldata/mysql-01/mysql-01.sock /tmp/mysql.sock
 
 	7. 配置mysql为系统服务
@@ -82,32 +83,83 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### 二、mysql5.7 二进制安装
+	1. 解压
+		tar -zxvf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz  -C /usr/local/
+		glibc
+		# rpm -q glibc 查看当前glibc的版本
+		
+		# mv mysql-5.6.40-linux-glibc2.12-x86_64 mysql 修改名字
+		# yum install libaio
+		
+    2. 创建mysql数据库 *****
+    	①创建mysql用户
+			# useradd -M -s /sbin/nologin/ mysql   
 			
-	
-	
-	
-	1
+			或者
+			shell> groupadd mysql
+			shell> useradd -r -g mysql -s /bin/false mysql
+		
+		②修改/etc/my.cnf	
+		-----------------------------------------------------
+			vim /etc/my.cnf  修改配置参数
+			
+			[client]    
+			port=3306
+			socket=/mysqldata/mysql-01/mysql-01.sock
+			
+			[mysqld]
+			user=mysql  
+			basedir=/usr/local/mysql  	      
+			datadir=/mysqldata/mysql-01	      
+			server_id=1
+			socket=/mysqldata/mysql-01/mysql-01.sock
+		-----------------------------------------------------
+		
+		③初始化数据
+			# cd /usr/local/mysql
+			# mkdir -p /mysqldata
+				
+	 		mysql5.7及之后用 ./bin/mysqld
+	 		# cd /usr/local/mysql
+    	    # bin/mysqld --initialize --basedir=/usr/local/mysql/ --datadir=/mysqldata/mysql-01 --user=mysql   会生成临时密码 Ghj/YuaCf5pe
+    	
+    		先创建目录在授予mysql用户
+    		# chown -R mysql:mysql /usr/local/mysql   把该目录的权限也给mysql用户
+    		# chown -R mysql:mysql /mysqldata
+    
+    3. 启动mysql
+		# cd /usr/local/mysql/support-files
+		# ./mysql.server start  {start|stop|restart|reload|force-reload|status} 
+		
+		
+    4. 配置mysql为系统服务
+		# cd /usr/local/mysql/support-files
+		# cp mysql.server /etc/init.d/mysqld   服务名 mysqld
+
+		service mysqld start
+		service mysqld status
+		service mysqld stop
+		
+		设置开机自启
+		# chkconfig mysqld on    
+
+    5. 需要修改root用户的临时密码
+    	#先用临时密码登录
+		mysql> alter user 'root'@'localhost' identified by 'ok';
+
+
+    6. 创建远程登录用户
+	    mysql> create user 'root'@'%' identified by 'ok';
+	    mysql> grant all privileges on 库名.表名 to '用户名'@'IP地址';
+	    
+	    或者, 等于上面俩条语句 
+	    mysql> grant all privileges on 库名.表名 to '用户名'@'IP地址' identified by '密码'	with grant option;
+	    mysql> flush privileges; 
+	    
+	    mysql> grant all privileges on *.* to 'root'@'%' identified by 'ok' with grant option;
+
+  
 	
 	
 	

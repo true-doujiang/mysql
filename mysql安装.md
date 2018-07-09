@@ -160,6 +160,82 @@
 	    mysql> grant all privileges on *.* to 'root'@'%' identified by 'ok' with grant option;
 
   
+  
+    change master to
+	 master_host='192.168.35.142',
+    master_user='repl',
+    master_password='replpass',
+    master_log_file='mysql-bin.000001',
+    master_log_pos=1247;
+	
+	start slave;
+	stop slave;
+	stop sql_therad slave;
+	stop io_therad slave;
+	reset slave;   断开复制链接。会自动删除Master_Info_File: /mysqldata/mysql-01/master.info	
+	show slave status\G;
+	
+	show master;
 	
 	
-	
+	change master to
+	 master_host='192.168.35.142',
+    master_user='repl',
+    master_password='replpass',
+    master_auto_position=1;
+    
+    报错误：
+    mysql主从不同步，提示Last_Error: Coordinator stopped because there were error(s) in the worker(s). The most recent failure being: Worker 1 failed executing transaction
+    按照丛库的提示找原因，输入命令
+select * from performance_schema.replication_applier_status_by_worker\G;
+
+
+
+
+#全局定义块
+global_defs {
+    # 邮件通知配置
+    notification_email {
+        email1
+        email2
+    }
+    notification_email_from email
+    smtp_server host
+    smtp_connect_timeout num
+
+    lvs_id string
+    router_id string    ## 标识本节点的字条串,通常为hostname
+}
+
+
+
+vrrp_instance VI_1 {
+    state BACKUP
+    interface ens33
+    virtual_router_id 51
+    priority 100
+    advert_int 1
+    nopreempt
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+
+    virtual_ipaddress {  
+        192.168.35.100/24
+    }
+}
+
+virtual_server 192.168.35.100 3306 { 
+    delay_loop 6
+    protocol TCP
+    real_server 192.168.35.142 3306 { 
+        notify_down "kill -9 $(cat /var/run/keepalived.pid)"
+        TCP_CHECK { 
+            connect_port 3306 
+            connect_timeout 3
+            nb_get_retry 3
+            delay_before_retry 3
+        }
+    }
+}

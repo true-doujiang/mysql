@@ -43,6 +43,7 @@
 	group by gender having sum(grade) > 300;
 	
  4.行转列
+ 
     max(case col1 when 'aa' then col2 else 0 end) '微信'	
 
 

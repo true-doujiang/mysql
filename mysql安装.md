@@ -226,16 +226,27 @@ vrrp_instance VI_1 {
     }
 }
 
-virtual_server 192.168.35.100 3306 { 
-    delay_loop 6
-    protocol TCP
-    real_server 192.168.35.142 3306 { 
-        notify_down "kill -9 $(cat /var/run/keepalived.pid)"
-        TCP_CHECK { 
-            connect_port 3306 
-            connect_timeout 3
-            nb_get_retry 3
-            delay_before_retry 3
-        }
-    }
-}
+	
+    virtual_server 192.168.35.100 3306 { 
+	    delay_loop 6
+	    protocol TCP
+	    real_server 192.168.35.142 3306 { 
+	        notify_down "kill -9 $(cat /var/run/keepalived.pid)"
+	        TCP_CHECK { 
+	            connect_port 3306 
+	            connect_timeout 3
+	            nb_get_retry 3
+	            delay_before_retry 3
+	        }
+	    }
+	}
+	
+###阶段四
+	1.slow_query_log  log_query_time
+	分析满查询日志
+		./bin/mysqldumpslow [option] slow_query.log
+	percona 需要安装  功能更多
+	2.
+	3.
+	4.
+	

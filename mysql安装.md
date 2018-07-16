@@ -89,7 +89,7 @@
 		glibc
 		# rpm -q glibc 查看当前glibc的版本
 		
-		# mv mysql-5.6.40-linux-glibc2.12-x86_64 mysql 修改名字
+		# mv mysql-5.7.22-linux-glibc2.12-x86_64 mysql 修改名字
 		# yum install libaio
 		
     2. 创建mysql数据库 *****
@@ -251,6 +251,7 @@ vrrp_instance VI_1 {
 	4.
 	
 一、基于二进制日志位置复制
+
 	Master
 	vim /etc/my.cnf
 	[mysqld]	

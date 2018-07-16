@@ -250,3 +250,16 @@ vrrp_instance VI_1 {
 	3.
 	4.
 	
+一、基于二进制日志位置复制
+	Master
+	vim /etc/my.cnf
+	[mysqld]	
+	server-id=1
+	log-bin=mysql-bin
+	
+	
+	mysql> grant replication slave on *.* to 'slave'@'%' identified by 'slavepass' with grant option;
+	
+	Slave
+	
+	

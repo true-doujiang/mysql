@@ -42,6 +42,8 @@
 			datadir=/mysqldata/mysql-01	      数据库 "实例" 存放数据的目录
 			server_id=1
 			socket=/mysqldata/mysql-01/mysql-01.sock
+			
+			character_set_server=utf8
 			-----------------------------------------------------
 			
 	3. 启动mysql
@@ -114,6 +116,8 @@
 			datadir=/mysqldata/mysql-01	      
 			server_id=1
 			socket=/mysqldata/mysql-01/mysql-01.sock
+			
+			character_set_server=utf8
 		-----------------------------------------------------
 		
 		③初始化数据

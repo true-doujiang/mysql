@@ -187,6 +187,26 @@
        在特定的时间执行特定的操作，可以执行一次，可以重复执行
        
        
+       语法：
+       create event event_name on schedule 时间
+       do sql语句
        
+       时间:
+       执行一次： at timestamp [+interval]
+       重复执行： every interval starts timestamp ends timestamp
+       interval：YEAR QUARTER MONTH DAY HOUR MINUTE WEEK.....
+       
+       例如：
+       mysql> create event sec_insert  on schedule every 1 second
+       mysql> do insert into teacher values(1000, 'second');
+       
+       mysql> create event sec_insert2  on schedule at '2018-7-22 00:58:00'[+interval 1 minute] 
+       mysql> do insert into teacher values(2000, 'atatatatattttttatat');
+
+       
+       
+       开启调度参数：
+       mysql默认没有开启调度
+       mysql> set global event_scheduler = on;  只能在全局设置
        
        

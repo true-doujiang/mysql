@@ -127,7 +127,7 @@
 	2. 用户函数
         语法：
         create function function_name (参数列表)  
-        return type  必须有返回值
+        returns type  必须有返回值
         begin
 	   sql语句
         end
@@ -138,7 +138,7 @@
 	例如：
 	mysql> delimiter //
 	mysql> create function fn_count (val1 int)
-	mysql> return int
+	mysql> returns int
 	mysql> begin
 	mysql>    declare m int;
 	mysql>    select count(*) into m from teacher where id < n;
@@ -148,7 +148,15 @@
 	mysql> delimiter ;
 	
 	使用：
-        mysql> call fn_count (10);
-	mysql> call get_count (@count);
-	mysql> select @count;
+        mysql> select fn_count(100);
 	
+	
+       存储过程和函数区别：
+       
+五、 mysql触发器
+	
+       触发器是基于某个指定事件触发执行的程序体
+       mysql触发事件有：
+        insert （before， after）
+        update （before， after）
+        delete （before， after）       

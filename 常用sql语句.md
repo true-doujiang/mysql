@@ -160,3 +160,33 @@
         insert （before， after）
         update （before， after）
         delete （before， after）       
+       
+       语法：
+       create trigger trigger_name 触发时间 触发事件 on table_name for each row
+       begin
+           sql语句
+       end
+       
+       触发器中的new和old表：
+       在触发器中有俩个特殊的临时表new、old
+       其表结构与触发器所在的表一致
+       new表捕获插入的新数据
+       old表捕获被删除的就数据
+       
+       例如：
+       mysql> create trigger get_insert after insert on teacher for each row
+       mysql> begin
+       mysql> 	   insert into teacher2 values(new.id, new.name);
+       mysql> end
+       
+       
+ 六、 mysql事件调度
+       
+       mysql中的事件调度就类似于Oracle中的作业
+       可以理解成一个时间触发器
+       在特定的时间执行特定的操作，可以执行一次，可以重复执行
+       
+       
+       
+       
+       

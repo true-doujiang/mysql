@@ -47,5 +47,36 @@
     max(case col1 when 'aa' then col2 else 0 end) '微信'	
 
 
+
+--------------------------------------------------------------------------------------------------------------------------
+一、 mysql事务
+	
+	1. 事务的概念
+        事务
+        原子性
+        永久性
+        隔离性
+        一致性
+	
+	2. 事务之间没有隔离性将导致的问题
+        丢失更新
+        脏读
+        不可重复读
+        幻读
+	
+	3. innodb事务隔离级别
+	
+	
+	
+	4. 锁的概念
+
+二、 隔离级别讲解
+	
+	1. read uncommitted
+        
+	mysql> select @@tx_isolation;
+	mysql> set session transaction isolation level read uncommitted;
+	
+	
 	
 	

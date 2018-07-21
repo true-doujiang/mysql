@@ -74,8 +74,10 @@
 	
 	1. read uncommitted
         
+        mysql> set binlog_format = row;  设置binlog的模式
+	
 	mysql> select @@tx_isolation;
-	mysql> set session transaction isolation level read uncommitted;
+	mysql> set session transaction isolation level read uncommitted;   不加session可能会加不上去
 	
 	
 	

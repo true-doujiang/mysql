@@ -78,7 +78,77 @@
 	
 	mysql> select @@tx_isolation;
 	mysql> set session transaction isolation level read uncommitted;   不加session可能会加不上去
+
+三、 binlog日志
+	
+	1. binlog日志相关参数
+        log_bin = mysql-bin
+	binlog_format = statement, row, mix
+	                statement 记录原生sql语句， 若执行随机函数，则恢复的可能产生不一致情况
+			row	  记录行记录
+			mix       上面两种混合体
+	sync_binlog = 0, 1, 2
+	
+四、 mysql编程
+	
+	1. 存储过程
+        语法：
+	create procedure 存储过程名字 (参数列表)
+        begin
+	   sql语句代码
+        end
+	
+        参数类型：
+	IN     传入，  默认值
+	OUT    传出
+	INOUT  传入传出都可以
+	
+        例如：
+	mysql> delimiter //
+	mysql> create procedure mypro (val1 int, val2 varchar(50)) 
+	mysql> begin
+	mysql>    insert into teacher values(val1, val2);
+	mysql> end
+	mysql> //
+	mysql> delimiter ;
+	
+	mysql> create procedure get_count (out val1 int) 
+	mysql> begin
+	mysql>    select count(*) from teacher;
+	mysql> end
+	mysql> //
 	
 	
+        使用：
+        mysql> call mypro (10, '张三');
+	mysql> call get_count (@count);
+	mysql> select @count;
 	
+	2. 用户函数
+        语法：
+        create function function_name (参数列表)  
+        return type  必须有返回值
+        begin
+	   sql语句
+        end
+	
+	参数类型：
+	IN     只有IN
+        
+	例如：
+	mysql> delimiter //
+	mysql> create function fn_count (val1 int)
+	mysql> return int
+	mysql> begin
+	mysql>    declare m int;
+	mysql>    select count(*) into m from teacher where id < n;
+	mysql>    return m;
+	mysql> end
+	mysql> //
+	mysql> delimiter ;
+	
+	使用：
+        mysql> call fn_count (10);
+	mysql> call get_count (@count);
+	mysql> select @count;
 	

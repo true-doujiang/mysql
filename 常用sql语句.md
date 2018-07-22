@@ -212,3 +212,43 @@
 	       mysql> set global event_scheduler = on;  只能在全局设置
        
        
+
+七、 mysql服务器系统状态
+       
+       1. 系统性能指标
+	       cpu
+		  空闲时间
+		  队列长度
+	       内存
+		  已使用内存
+		  空闲内存
+	       磁盘
+		  每秒io
+		  物理读写
+	  
+       2. cpu状态监控
+		   # top   # top -u  Linux用户名
+		   # sar   #sar 1 
+		   # mpstat 
+       
+       3. 内存监控
+		  # free     
+		  # free -m     m以MB为单位
+	  
+       4. 磁盘状态监控
+          	  # lostat
+	  
+       5. 综合状态
+       	   	  # vmstat
+		  
+		  
+		  
+		  
+		  
+		  
+	
+	
+	
+	
+	
+	

@@ -95,7 +95,7 @@
         语法：
 	create procedure 存储过程名字 (参数列表)
         begin
-	   sql语句代码
+	      sql语句代码
         end
 	
         参数类型：
@@ -104,80 +104,82 @@
 	INOUT  传入传出都可以
 	
         例如：
-	mysql> delimiter //
-	mysql> create procedure mypro (val1 int, val2 varchar(50)) 
-	mysql> begin
-	mysql>    insert into teacher values(val1, val2);
-	mysql> end
-	mysql> //
-	mysql> delimiter ;
+		mysql> delimiter //
+		mysql> create procedure mypro (val1 int, val2 varchar(50)) 
+		mysql> begin
+		mysql>    insert into teacher values(val1, val2);
+		mysql> end
+		mysql> //
+		mysql> delimiter ;
 	
-	mysql> create procedure get_count (out val1 int) 
-	mysql> begin
-	mysql>    select count(*) from teacher;
-	mysql> end
-	mysql> //
+		mysql> create procedure get_count (out val1 int) 
+		mysql> begin
+		mysql>    select count(*) from teacher;
+		mysql> end
+		mysql> //
 	
 	
         使用：
-        mysql> call mypro (10, '张三');
-	mysql> call get_count (@count);
-	mysql> select @count;
+		mysql> call mypro (10, '张三');
+		mysql> call get_count (@count);
+		mysql> select @count;
 	
 	2. 用户函数
         语法：
-        create function function_name (参数列表)  
-        returns type  必须有返回值
-        begin
-	   sql语句
-        end
+		create function function_name (参数列表)  
+		returns type  必须有返回值
+		begin
+		       sql语句
+		end
 	
 	参数类型：
 	IN     只有IN
         
 	例如：
-	mysql> delimiter //
-	mysql> create function fn_count (val1 int)
-	mysql> returns int
-	mysql> begin
-	mysql>    declare m int;
-	mysql>    select count(*) into m from teacher where id < n;
-	mysql>    return m;
-	mysql> end
-	mysql> //
-	mysql> delimiter ;
+		mysql> delimiter //
+		mysql> create function fn_count (val1 int)
+		mysql> returns int
+		mysql> begin
+		mysql>    declare m int;
+		mysql>    select count(*) into m from teacher where id < n;
+		mysql>    return m;
+		mysql> end
+		mysql> //
+		mysql> delimiter ;
 	
 	使用：
-        mysql> select fn_count(100);
+		mysql> select fn_count(100);
 	
 	
        存储过程和函数区别：
+       
+       
        
 五、 mysql触发器
 	
        触发器是基于某个指定事件触发执行的程序体
        mysql触发事件有：
-        insert （before， after）
-        update （before， after）
-        delete （before， after）       
+		insert （before， after）
+		update （before， after）
+		delete （before， after）       
        
        语法：
-       create trigger trigger_name 触发时间 触发事件 on table_name for each row
-       begin
-           sql语句
-       end
+	       create trigger trigger_name 触发时间 触发事件 on table_name for each row
+	       begin
+		   sql语句
+	       end
        
        触发器中的new和old表：
-       在触发器中有俩个特殊的临时表new、old
-       其表结构与触发器所在的表一致
-       new表捕获插入的新数据
-       old表捕获被删除的就数据
+	       在触发器中有俩个特殊的临时表new、old
+	       其表结构与触发器所在的表一致
+	       new表捕获插入的新数据
+	       old表捕获被删除的就数据
        
        例如：
-       mysql> create trigger get_insert after insert on teacher for each row
-       mysql> begin
-       mysql> 	   insert into teacher2 values(new.id, new.name);
-       mysql> end
+	       mysql> create trigger get_insert after insert on teacher for each row
+	       mysql> begin
+	       mysql> 	   insert into teacher2 values(new.id, new.name);
+	       mysql> end
        
        
  六、 mysql事件调度
@@ -188,25 +190,25 @@
        
        
        语法：
-       create event event_name on schedule 时间
-       do sql语句
+	       create event event_name on schedule 时间
+	       do sql语句
        
        时间:
-       执行一次： at timestamp [+interval]
-       重复执行： every interval starts timestamp ends timestamp
-       interval：YEAR QUARTER MONTH DAY HOUR MINUTE WEEK.....
+	       执行一次： at timestamp [+interval]
+	       重复执行： every interval starts timestamp ends timestamp
+	       interval：YEAR QUARTER MONTH DAY HOUR MINUTE WEEK.....
        
        例如：
-       mysql> create event sec_insert  on schedule every 1 second
-       mysql> do insert into teacher values(1000, 'second');
-       
-       mysql> create event sec_insert2  on schedule at '2018-7-22 00:58:00'[+interval 1 minute] 
-       mysql> do insert into teacher values(2000, 'atatatatattttttatat');
+	       mysql> create event sec_insert  on schedule every 1 second
+	       mysql> do insert into teacher values(1000, 'second');
+
+	       mysql> create event sec_insert2  on schedule at '2018-7-22 00:58:00'[+interval 1 minute] 
+	       mysql> do insert into teacher values(2000, 'atatatatattttttatat');
 
        
        
        开启调度参数：
-       mysql默认没有开启调度
-       mysql> set global event_scheduler = on;  只能在全局设置
+	       mysql默认没有开启调度
+	       mysql> set global event_scheduler = on;  只能在全局设置
        
        

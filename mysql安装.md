@@ -163,6 +163,11 @@
 	    
 	    mysql> grant all privileges on *.* to 'root'@'%' identified by 'ok' with grant option;
 
+    
+    
+    Windows 安装教程    https://blog.csdn.net/rebirth_love/article/details/53608483
+  
+  
   
   
     change master to

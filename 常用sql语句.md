@@ -21,9 +21,11 @@
 		contract.name 
 	from user 
 	left join contract on contract.user_id = user.id 
-	where contract.name is null;
+	where contract.name is null;    
 	
-	where contract.name = null; 就不同
+	注意： 
+	1. where 后的条件是对聚合后的数据进行过滤   on后面的条件是先过滤在聚合
+	2. where contract.name = null; 就不同
 
 2.查询重复用户名的用户id及用户名	
 

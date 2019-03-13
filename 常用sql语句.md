@@ -1,13 +1,13 @@
 1.查询没有合同的用户
 
 	①子查询
-	   **not in**
+	   【not in】
 	select 
 	    *
 	from user 
 	where id not in (select user_id from contract);
 	
-	not exists
+	   【not exists】
 	select 
 		* 
 	from user 

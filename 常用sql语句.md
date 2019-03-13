@@ -1,7 +1,7 @@
 1.查询没有合同的用户
 
 	①子查询
-	not in
+	   **not in**
 	select 
 	    *
 	from user 
